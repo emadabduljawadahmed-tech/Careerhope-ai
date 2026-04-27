@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>CareerHope AI — كاريير هوب</title>
+<meta name="description" content="منصة ذكاء اصطناعي مجانية لدعم فاقدي الوظائف. عربي • English • 中文"/>
+<meta name="author" content="عماد عبدالجواد إبراهيم أحمد"/>
+<meta name="theme-color" content="#1a6fa8"/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://careerhope-ai.vercel.app/"/>
+<meta property="og:title" content="CareerHope AI — كاريير هوب"/>
+<meta property="og:description" content="رفيقك الذكي في رحلة العودة المهنية 💙 دعم نفسي • سيرة ذاتية • دورات مجانية • وظائف — مجاني"/>
+<meta property="og:image" content="https://careerhope-ai.vercel.app/og-image.png"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:site_name" content="CareerHope AI"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="CareerHope AI — كاريير هوب"/>
+<meta name="twitter:description" content="رفيقك الذكي في رحلة العودة المهنية 💙 مجاني"/>
+<meta name="twitter:image" content="https://careerhope-ai.vercel.app/og-image.png"/>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='64' height='64' rx='14' fill='%231a6fa8'/%3E%3Crect x='14' y='28' width='36' height='24' rx='5' fill='white'/%3E%3Cpath d='M32 24 L32 12 M32 12 L27 17 M32 12 L37 17' stroke='%2310b981' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='50' cy='14' r='5' fill='%2310b981'/%3E%3C/svg%3E"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#e8f4fd;font-family:"Segoe UI",Tahoma,Arial,sans-serif;min-height:100vh}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-thumb{background:rgba(41,128,185,0.3);border-radius:3px}
+
+/* SPLASH */
+#splash{position:fixed;inset:0;background:linear-gradient(160deg,#1a6fa8,#2196c4,#1aadad);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity .5s}
+#splash.hide{opacity:0;pointer-events:none}
+.sp-title{color:#fff;font-size:26px;font-weight:800;margin-top:16px}
+.sp-sub{color:rgba(255,255,255,.75);font-size:13px;margin-top:6px}
+.sp-dots{display:flex;gap:8px;margin-top:20px}
+.sp-dots span{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.8);animation:bd 1.2s ease-in-out infinite}
+.sp-dots span:nth-child(2){animation-delay:.2s}.sp-dots span:nth-child(3){animation-delay:.4s}
+@keyframes bd{0%,80%,100%{transform:scale(.5);opacity:.3}40%{transform:scale(1);opacity:1}}
+
+/* LAYOUT */
+#app{display:flex;flex-direction:column;min-height:100vh}
+#header{background:linear-gradient(160deg,#1a6fa8,#2196c4,#1aadad);border-bottom:1px solid rgba(255,255,255,.15);box-shadow:0 2px 20px rgba(41,128,185,.18);padding:0 16px}
+.header-top{max-width:900px;margin:0 auto;padding:14px 0;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.app-name{font-size:20px;font-weight:800;color:#fff;letter-spacing:1px}
+.app-sub{font-size:11px;color:rgba(255,255,255,.75)}
+.lang-btns{display:flex;gap:6px;margin-right:auto}
+.lang-btn{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 10px;border-radius:10px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);cursor:pointer;transition:all .2s}
+.lang-btn.active{border-color:#fff;background:rgba(255,255,255,.25)}
+.lang-flag{font-size:20px;line-height:1}
+.lang-name{font-size:10px;color:rgba(255,255,255,.7);font-weight:400}
+.lang-btn.active .lang-name{color:#fff;font-weight:700}
+.motivational{max-width:900px;margin:0 auto;padding-bottom:10px;text-align:center;font-size:13px;color:rgba(255,255,255,.92);font-weight:600;animation:ticker 4s ease-in-out infinite}
+@keyframes ticker{0%{opacity:0;transform:translateY(6px)}15%,85%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-6px)}}
+.tabs{max-width:900px;margin:0 auto;display:flex;gap:2px;overflow-x:auto}
+.tab-btn{padding:10px 14px;border:none;background:transparent;color:rgba(255,255,255,.65);border-bottom:2px solid transparent;cursor:pointer;font-size:13px;font-family:inherit;white-space:nowrap;transition:all .2s}
+.tab-btn.active{color:#fff;border-bottom-color:#fff;background:rgba(255,255,255,.15)}
+
+/* CONTENT */
+#content{flex:1;max-width:900px;width:100%;margin:0 auto;padding:20px 16px}
+
+/* CHAT */
+#chat-panel{display:flex;flex-direction:column;height:calc(100vh - 220px)}
+#messages{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:14px;padding-bottom:12px}
+.msg{display:flex;gap:10px;animation:fadeUp .3s ease}
+.msg.user{flex-direction:row-reverse}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.msg-avatar{width:36px;height:36px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px;background:white;border:1px solid rgba(41,128,185,.18);box-shadow:0 1px 4px rgba(41,128,185,.1)}
+.msg.user .msg-avatar{background:rgba(41,128,185,.15);border-color:rgba(41,128,185,.3)}
+.msg-bubble{max-width:75%;padding:12px 16px;border-radius:14px;font-size:14px;line-height:1.75;white-space:pre-wrap;color:#1a3a4a;background:rgba(255,255,255,.88);border:1px solid rgba(41,128,185,.12);box-shadow:0 1px 6px rgba(41,128,185,.07)}
+.msg.user .msg-bubble{background:rgba(41,128,185,.13);border-color:rgba(41,128,185,.28)}
+.msg-bubble.crisis{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.35)}
+.msg-bubble.harm{background:rgba(251,146,60,.08);border-color:rgba(251,146,60,.4)}
+.typing{display:flex;gap:6px;align-items:center;padding:14px 18px;background:rgba(255,255,255,.88);border:1px solid rgba(41,128,185,.12);border-radius:14px}
+.dot{width:8px;height:8px;border-radius:50%;background:#27ae60;animation:shimmer 1.2s ease-in-out infinite}
+.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
+@keyframes shimmer{0%,100%{opacity:.4}50%{opacity:1}}
+#chat-input-area{display:flex;gap:10px;padding-top:12px;border-top:1px solid rgba(41,128,185,.15)}
+#chat-input{flex:1;padding:12px 16px;border-radius:12px;border:1px solid rgba(41,128,185,.25);background:#fff;color:#1a3a4a;font-size:14px;font-family:inherit;outline:none;box-shadow:0 1px 6px rgba(41,128,185,.08)}
+#chat-send{width:46px;height:46px;border-radius:12px;border:none;background:linear-gradient(135deg,#1a6fa8,#1aadad);color:#fff;font-size:18px;cursor:pointer;transition:opacity .2s}
+#chat-send:disabled{opacity:.4;cursor:not-allowed}
+
+/* PANELS */
+.panel{display:none}
+.panel.active{display:block}
+.panel h2{font-size:18px;font-weight:700;color:#1a6fa8;margin-bottom:16px}
+.panel label{font-size:13px;color:#2980b9;font-weight:600;display:block;margin-bottom:8px}
+.panel input,.panel textarea{width:100%;padding:12px 16px;border-radius:10px;border:1px solid rgba(41,128,185,.22);background:#fff;color:#1a3a4a;font-size:14px;font-family:inherit;outline:none;box-shadow:0 1px 4px rgba(41,128,185,.07)}
+.panel textarea{resize:vertical}
+.action-btn{margin-top:12px;padding:12px 24px;border-radius:10px;border:none;color:#fff;font-size:14px;font-weight:700;cursor:pointer;transition:opacity .2s;font-family:inherit}
+.action-btn:disabled{opacity:.45;cursor:not-allowed}
+.result-box{margin-top:16px;padding:20px;border-radius:12px;background:rgba(255,255,255,.95);border:1px solid rgba(41,128,185,.18);box-shadow:0 2px 12px rgba(41,128,185,.08);font-size:14px;line-height:1.8;color:#1a3a4a;white-space:pre-wrap;max-height:420px;overflow-y:auto}
+.upload-zone{border:2px dashed rgba(41,128,185,.35);border-radius:14px;padding:24px 16px;text-align:center;cursor:pointer;background:rgba(41,128,185,.04);margin-bottom:16px;transition:all .2s}
+.upload-zone:hover{border-color:rgba(41,128,185,.6);background:rgba(41,128,185,.08)}
+.upload-zone .uz-icon{font-size:36px;margin-bottom:8px}
+.upload-zone .uz-title{color:#1a6fa8;font-weight:700;font-size:15px}
+.upload-zone .uz-hint{color:#7f8c8d;font-size:12px;margin-top:6px}
+.uz-divider{text-align:center;color:#7f8c8d;font-size:12px;margin:12px 0}
+
+/* FOOTER */
+#footer{text-align:center;padding:14px;border-top:1px solid rgba(41,128,185,.15);background:rgba(232,244,253,.6);font-size:11px;color:#7f8c8d;letter-spacing:.5px}
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash">
+  <svg width="80" height="80" viewBox="0 0 64 64" fill="none">
+    <rect width="64" height="64" rx="14" fill="rgba(15,23,42,0.6)" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+    <rect x="14" y="28" width="36" height="24" rx="5" fill="#2563eb"/>
+    <path d="M24 28v-5a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7v5" stroke="#93c5fd" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <path d="M32 24L32 12M32 12L27 17M32 12L37 17" stroke="#10b981" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="50" cy="14" r="5" fill="#10b981"/>
+  </svg>
+  <div class="sp-title">CareerHope AI</div>
+  <div class="sp-sub">كاريير هوب — رفيقك في رحلة العودة المهنية</div>
+  <div class="sp-dots"><span></span><span></span><span></span></div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div id="header">
+    <div class="header-top">
+      <!-- Logo -->
+      <svg width="58" height="58" viewBox="0 0 58 58" fill="none">
+        <defs>
+          <linearGradient id="lb" x1="0" y1="0" x2="58" y2="58" gradientUnits="userSpaceOnUse"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#0ea5e9"/></linearGradient>
+          <linearGradient id="lg" x1="0" y1="0" x2="58" y2="58" gradientUnits="userSpaceOnUse"><stop stop-color="#059669"/><stop offset="1" stop-color="#10b981"/></linearGradient>
+        </defs>
+        <rect width="58" height="58" rx="14" fill="rgba(15,23,42,0.7)" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+        <rect x="12" y="24" width="34" height="22" rx="3" fill="url(#lb)" opacity="0.95"/>
+        <path d="M22 24v-4a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v4" stroke="#93c5fd" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <line x1="12" y1="34" x2="46" y2="34" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+        <rect x="26" y="31" width="6" height="6" rx="1.5" fill="rgba(255,255,255,0.3)"/>
+        <path d="M29 20L29 10M29 10L25 14M29 10L33 14" stroke="url(#lg)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="45" cy="13" r="2.5" fill="#10b981" opacity="0.9"/>
+      </svg>
+      <div style="flex:1">
+        <div class="app-name" id="app-name">كاريير هوب</div>
+        <div class="app-sub" id="app-sub">رفيقك في رحلة العودة المهنية</div>
+      </div>
+      <!-- Lang switcher -->
+      <div class="lang-btns">
+        <button class="lang-btn active" onclick="setLang('ar')"><span class="lang-flag">🇸🇦</span><span class="lang-name">العربية</span></button>
+        <button class="lang-btn" onclick="setLang('en')"><span class="lang-flag">🇺🇸</span><span class="lang-name">English</span></button>
+        <button class="lang-btn" onclick="setLang('zh')"><span class="lang-flag">🇨🇳</span><span class="lang-name">中文</span></button>
+      </div>
+    </div>
+    <div class="motivational" id="motivational">💪 كل نهاية هي بداية جديدة أجمل</div>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="setTab(0)" id="tab0">💬 المحادثة</button>
+      <button class="tab-btn" onclick="setTab(1)" id="tab1">📄 السيرة الذاتية</button>
+      <button class="tab-btn" onclick="setTab(2)" id="tab2">🎓 دورات مجانية</button>
+      <button class="tab-btn" onclick="setTab(3)" id="tab3">💼 وظائف</button>
+      <button class="tab-btn" onclick="setTab(4)" id="tab4">🎥 فيديوهات</button>
+    </div>
+  </div>
+
+  <div id="content">
+
+    <!-- CHAT PANEL -->
+    <div class="panel active" id="panel0">
+      <div id="chat-panel">
+        <div id="messages"></div>
+        <div id="chat-input-area">
+          <input id="chat-input" type="text" placeholder="اكتب رسالتك... أنا هنا لأساعدك" onkeydown="if(event.key==='Enter')sendChat()"/>
+          <button id="chat-send" onclick="sendChat()">➤</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CV PANEL -->
+    <div class="panel" id="panel1">
+      <h2 id="cv-title">📄 محرر السيرة الذاتية الاحترافي</h2>
+      <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-input').click()" ondragover="event.preventDefault()" ondrop="handleDrop(event)">
+        <div class="uz-icon">📄</div>
+        <div class="uz-title" id="cv-upload-label">📎 رفع ملف PDF أو Word</div>
+        <div class="uz-hint" id="cv-hint">يدعم: PDF, DOC, DOCX, TXT</div>
+        <div id="file-name" style="margin-top:8px;color:#27ae60;font-size:12px;font-weight:600"></div>
+      </div>
+      <input type="file" id="file-input" accept=".pdf,.doc,.docx,.txt" style="display:none" onchange="handleFile(this)"/>
+      <div class="uz-divider" id="cv-or">— أو اكتب / الصق مباشرة —</div>
+      <textarea id="cv-text" rows="6" placeholder="الصق سيرتك الذاتية هنا أو اكتب معلوماتك..."></textarea>
+      <button class="action-btn" style="background:#27ae60" onclick="enhanceCV()" id="cv-btn">✨ تحسين السيرة الذاتية</button>
+      <div class="result-box" id="cv-result" style="display:none"></div>
+    </div>
+
+    <!-- COURSES PANEL -->
+    <div class="panel" id="panel2">
+      <h2>🎓 <span id="courses-title">ابحث عن دورات مجانية</span></h2>
+      <label id="courses-label">مجال تخصصك</label>
+      <input id="course-input" type="text" placeholder="مثال: تسويق رقمي، محاسبة..."/>
+      <button class="action-btn" style="background:#e67e22" onclick="findCourses()" id="courses-btn">🎓 ابحث عن دورات مجانية</button>
+      <div class="result-box" id="courses-result" style="display:none"></div>
+    </div>
+
+    <!-- JOBS PANEL -->
+    <div class="panel" id="panel3">
+      <h2>💼 <span id="jobs-title">ابحث عن وظائف</span></h2>
+      <label id="jobs-label">اكتب مجال عملك ودولتك</label>
+      <input id="job-input" type="text" placeholder="مثال: مهندس برمجيات، مصر"/>
+      <button class="action-btn" style="background:#2980b9" onclick="findJobs()" id="jobs-btn">🔍 ابحث عن وظائف</button>
+      <div class="result-box" id="jobs-result" style="display:none"></div>
+    </div>
+
+    <!-- VIDEOS PANEL -->
+    <div class="panel" id="panel4">
+      <h2>🎥 <span id="videos-title">فيديوهات الدعم والتحفيز</span></h2>
+      <label id="videos-label">ما الموضوع الذي تحتاج دعماً فيه؟</label>
+      <input id="video-input" type="text" placeholder="مثال: كيف أتجاوز الفشل..."/>
+      <button class="action-btn" style="background:#8b5cf6" onclick="findVideos()" id="videos-btn">🎬 ابحث عن فيديوهات</button>
+      <div class="result-box" id="videos-result" style="display:none"></div>
+    </div>
+
+  </div>
+
+  <div id="footer">© 2026 عماد عبدالجواد إبراهيم أحمد — CareerHope AI — جميع الحقوق محفوظة &nbsp;|&nbsp; إنشاء: 25/04/2026</div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// © 2026 CareerHope AI — عماد عبدالجواد إبراهيم أحمد
+// جميع الحقوق محفوظة — All Rights Reserved
+// ═══════════════════════════════════════════════════════════
+
+const LANGS = {
+  ar: {
+    dir:'rtl', name:'كاريير هوب', sub:'رفيقك في رحلة العودة المهنية',
+    tabs:['💬 المحادثة','📄 السيرة الذاتية','🎓 دورات مجانية','💼 وظائف','🎥 فيديوهات'],
+    placeholder:'اكتب رسالتك... أنا هنا لأساعدك',
+    cvTitle:'محرر السيرة الذاتية الاحترافي',
+    cvUpload:'📎 رفع ملف PDF أو Word', cvHint:'يدعم: PDF, DOC, DOCX, TXT', cvOr:'— أو اكتب / الصق مباشرة —',
+    cvPlaceholder:'الصق سيرتك الذاتية هنا أو اكتب معلوماتك...',
+    cvBtn:'✨ تحسين السيرة الذاتية', cvLoading:'جارٍ التحسين...',
+    coursesLabel:'مجال تخصصك', coursesPlaceholder:'مثال: تسويق رقمي، محاسبة...',
+    coursesBtn:'🎓 ابحث عن دورات مجانية', coursesLoading:'جارٍ البحث...',
+    jobsLabel:'اكتب مجال عملك ودولتك', jobsPlaceholder:'مثال: مهندس برمجيات، مصر',
+    jobsBtn:'🔍 ابحث عن وظائف', jobsLoading:'جارٍ البحث...',
+    videosLabel:'ما الموضوع الذي تحتاج دعماً فيه؟', videosPlaceholder:'مثال: كيف أتجاوز الفشل...',
+    videosBtn:'🎬 ابحث عن فيديوهات', videosLoading:'جارٍ البحث...',
+    greeting:`مرحباً بك في CareerHope 💙\nأنا هنا لأكون رفيقك في هذه المرحلة الصعبة. فقدان الوظيفة ليس نهاية — بل هو بداية جديدة.\n\nيمكنني مساعدتك في:\n• الدعم النفسي والتشجيع\n• تحسين سيرتك الذاتية باحترافية\n• إيجاد دورات مجانية في مجالك\n• البحث عن وظائف مناسبة\n• فيديوهات تحفيزية لمنع الإحباط\n\nأخبرني، كيف يمكنني مساعدتك اليوم؟`,
+    motivations:['💪 كل نهاية هي بداية جديدة أجمل','🌟 مواهبك أكبر من أي وظيفة','🚀 أفضل فصول حياتك لم تُكتب بعد','❤️ أنت لست وحدك في هذه الرحلة','✨ الصبر مفتاح الفرج'],
+    crisisMsg:`💙 أنا هنا معك، وأنا قلق عليك جداً الآن.\n\nحياتك ثمينة جداً، وما تمر به الآن مؤلم — لكنه مؤقت.\n\nأرجوك تواصل الآن:\n🇪🇬 مصر: 08008880700 (مجاني ٢٤/٧)\n🇸🇦 السعودية: 920033360\n🌍 دولي: befrienders.org`,
+    harmMsg:`⚠️ أفهم أنك تمر بمشاعر غضب شديدة — وهذا طبيعي.\n\nلكنني لا أستطيع دعم أي فكرة تؤذي شخصاً آخر.\n\n💡 أفضل انتقام هو نجاحك أنت 💪\nكيف يمكنني مساعدتك للمضي للأمام؟`
+  },
+  en: {
+    dir:'ltr', name:'CareerHope', sub:'Your companion on the road back',
+    tabs:['💬 Chat','📄 Resume','🎓 Courses','💼 Jobs','🎥 Videos'],
+    placeholder:'Type your message... I\'m here to help',
+    cvTitle:'Professional Resume Editor',
+    cvUpload:'📎 Upload PDF or Word File', cvHint:'Supports: PDF, DOC, DOCX, TXT', cvOr:'— or type / paste below —',
+    cvPlaceholder:'Paste your resume or write your info...',
+    cvBtn:'✨ Enhance Resume', cvLoading:'Enhancing...',
+    coursesLabel:'Your specialization', coursesPlaceholder:'e.g. Digital Marketing, Accounting...',
+    coursesBtn:'🎓 Find Free Courses', coursesLoading:'Searching...',
+    jobsLabel:'Your field & country', jobsPlaceholder:'e.g. Software Engineer, Egypt',
+    jobsBtn:'🔍 Find Jobs', jobsLoading:'Searching...',
+    videosLabel:'What topic do you need support on?', videosPlaceholder:'e.g. Overcoming failure...',
+    videosBtn:'🎬 Find Videos', videosLoading:'Searching...',
+    greeting:`Welcome to CareerHope 💙\nI'm here to be your companion through this challenging time. Losing a job is not the end — it's a new beginning.\n\nI can help you with:\n• Emotional support & encouragement\n• Professional resume enhancement\n• Free courses in your field\n• Finding suitable job opportunities\n• Motivational videos\n\nHow can I help you today?`,
+    motivations:['💪 Every ending is a beautiful new beginning','🌟 Your talents are bigger than any job','🚀 Your best chapters haven\'t been written yet','❤️ You are not alone on this journey','✨ Patience unlocks every door'],
+    crisisMsg:`💙 I'm here with you, and I'm very concerned about you.\n\nYour life is precious. Please reach out now:\n🇺🇸 USA: 988 (24/7 free)\n🇬🇧 UK: 116 123\n🌍 International: befrienders.org`,
+    harmMsg:`⚠️ I understand you're feeling intense anger — that's natural.\n\nHowever, I cannot support any idea that harms another person.\n\n💡 The best revenge is your own success 💪\nHow can I help you move forward?`
+  },
+  zh: {
+    dir:'ltr', name:'职业希望', sub:'您回归职场之路上的伙伴',
+    tabs:['💬 聊天','📄 简历','🎓 课程','💼 职位','🎥 视频'],
+    placeholder:'输入您的消息...',
+    cvTitle:'专业简历编辑器',
+    cvUpload:'📎 上传PDF或Word文件', cvHint:'支持: PDF, DOC, DOCX, TXT', cvOr:'— 或直接输入/粘贴 —',
+    cvPlaceholder:'粘贴您的简历或输入您的信息...',
+    cvBtn:'✨ 优化简历', cvLoading:'优化中...',
+    coursesLabel:'您的专业领域', coursesPlaceholder:'例如：数字营销、会计...',
+    coursesBtn:'🎓 查找免费课程', coursesLoading:'搜索中...',
+    jobsLabel:'您的领域和国家', jobsPlaceholder:'例如：软件工程师，中国',
+    jobsBtn:'🔍 查找职位', jobsLoading:'搜索中...',
+    videosLabel:'您需要哪方面的支持？', videosPlaceholder:'例如：克服失败...',
+    videosBtn:'🎬 查找视频', videosLoading:'搜索中...',
+    greeting:`欢迎来到 CareerHope 💙\n我在这里陪伴您度过这段艰难时期。失业不是终点——而是新的开始。\n\n我可以帮助您：\n• 心理支持与鼓励\n• 专业简历优化\n• 免费课程\n• 寻找工作机会\n• 激励视频\n\n今天我怎么帮助您？`,
+    motivations:['💪 每一个结束都是美好的新开始','🌟 您的才能比任何工作都要大','🚀 您最好的篇章还没有写出来','❤️ 在这段旅程中您并不孤单','✨ 耐心是开启每扇门的钥匙'],
+    crisisMsg:`💙 我在这里陪伴您，我现在非常担心您。\n\n您的生命非常宝贵。请立即联系：\n🇨🇳 中国：400-161-9995（24/7）\n🌍 国际：befrienders.org`,
+    harmMsg:`⚠️ 我理解您现在感到强烈的愤怒——这很自然。\n\n但我无法支持任何伤害他人的想法。\n\n💡 最好的报复就是您自己的成功 💪\n我怎么帮您前进？`
+  }
+};
+
+const SYSTEM_PROMPTS = {
+  ar:`أنت "CareerHope"، وكيل ذكاء اصطناعي متخصص في مساعدة من فقدوا وظائفهم. كن متعاطفاً ومشجعاً. لا تقدم أي محتوى يؤذي الشخص أو الآخرين. © 2026 عماد عبدالجواد إبراهيم أحمد`,
+  en:`You are "CareerHope", an AI agent specialized in helping people who lost their jobs. Be empathetic and encouraging. Never provide content that harms the person or others. © 2026 Emad Abdelgawad Ibrahim Ahmed`,
+  zh:`您是"CareerHope"，专门帮助失业人员的AI助手。富有同理心和鼓励性。绝不提供伤害当事人或他人的内容。© 2026 Emad Abdelgawad Ibrahim Ahmed`
+};
+
+const CRISIS_KW = ['انتحار','أنهي حياتي','أقتل نفسي','لا أريد العيش','إيذاء نفسي','suicide','kill myself','end my life','want to die','self-harm','自杀','结束生命','不想活','伤害自己'];
+const HARM_KW   = ['أقتله','أؤذيه','أضربه','أنتقم','سأقتل','kill him','kill her','hurt them','revenge','attack','threaten','杀他','伤害他','报复','威胁'];
+
+// STATE
+let lang = 'ar';
+let currentTab = 0;
+let messages = [];
+let motivIdx = 0;
+let chatLoading = false;
+
+// INIT
+window.onload = () => {
+  setTimeout(hideSplash, 1200);
+  addMessage('assistant', LANGS[lang].greeting);
+  startMotivational();
+};
+
+function hideSplash(){
+  const s = document.getElementById('splash');
+  s.classList.add('hide');
+  setTimeout(()=>s.remove(), 600);
+}
+
+function startMotivational(){
+  setInterval(()=>{
+    motivIdx = (motivIdx+1) % LANGS[lang].motivations.length;
+    document.getElementById('motivational').textContent = LANGS[lang].motivations[motivIdx];
+  }, 4000);
+}
+
+// LANG
+function setLang(l){
+  lang = l;
+  const L = LANGS[l];
+  document.documentElement.lang = l;
+  document.documentElement.dir = L.dir;
+  document.getElementById('app-name').textContent = L.name;
+  document.getElementById('app-sub').textContent = L.sub;
+  document.querySelectorAll('.lang-btn').forEach((b,i)=>{
+    b.classList.toggle('active', ['ar','en','zh'][i]===l);
+  });
+  L.tabs.forEach((t,i)=>{ document.getElementById('tab'+i).textContent = t; });
+  document.getElementById('chat-input').placeholder = L.placeholder;
+  document.getElementById('cv-title').textContent = '📄 '+L.cvTitle;
+  document.getElementById('cv-upload-label').textContent = L.cvUpload;
+  document.getElementById('cv-hint').textContent = L.cvHint;
+  document.getElementById('cv-or').textContent = L.cvOr;
+  document.getElementById('cv-text').placeholder = L.cvPlaceholder;
+  document.getElementById('cv-btn').textContent = L.cvBtn;
+  document.getElementById('courses-label').textContent = L.coursesLabel;
+  document.getElementById('course-input').placeholder = L.coursesPlaceholder;
+  document.getElementById('courses-btn').textContent = L.coursesBtn;
+  document.getElementById('jobs-label').textContent = L.jobsLabel;
+  document.getElementById('job-input').placeholder = L.jobsPlaceholder;
+  document.getElementById('jobs-btn').textContent = L.jobsBtn;
+  document.getElementById('videos-label').textContent = L.videosLabel;
+  document.getElementById('video-input').placeholder = L.videosPlaceholder;
+  document.getElementById('videos-btn').textContent = L.videosBtn;
+  // Update input directions
+  ['chat-input','cv-text','course-input','job-input','video-input'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.dir = L.dir;
+  });
+  messages = [];
+  document.getElementById('messages').innerHTML = '';
+  addMessage('assistant', L.greeting);
+}
+
+// TABS
+function setTab(i){
+  currentTab = i;
+  document.querySelectorAll('.panel').forEach((p,idx)=>p.classList.toggle('active',idx===i));
+  document.querySelectorAll('.tab-btn').forEach((b,idx)=>b.classList.toggle('active',idx===i));
+}
+
+// MESSAGES
+function addMessage(role, text, type=''){
+  const L = LANGS[lang];
+  const msgs = document.getElementById('messages');
+  const div = document.createElement('div');
+  div.className = 'msg'+(role==='user'?' user':'');
+  const avatarSVG = `<svg width="20" height="20" viewBox="0 0 58 58" fill="none"><rect width="58" height="58" rx="14" fill="#0f172a"/><rect x="12" y="24" width="34" height="22" rx="3" fill="#2563eb" opacity="0.95"/><path d="M22 24v-4a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v4" stroke="#93c5fd" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M29 20L29 10M29 10L25 14M29 10L33 14" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="45" cy="13" r="2.5" fill="#10b981"/></svg>`;
+  div.innerHTML = `
+    <div class="msg-avatar">${role==='user'?'👤':avatarSVG}</div>
+    <div class="msg-bubble${type?' '+type:''}" dir="${LANGS[lang].dir}">${escHtml(text)}</div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function escHtml(t){ return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function showTyping(){
+  const msgs = document.getElementById('messages');
+  const d = document.createElement('div');
+  d.className='msg'; d.id='typing-indicator';
+  const avatarSVG = `<svg width="20" height="20" viewBox="0 0 58 58" fill="none"><rect width="58" height="58" rx="14" fill="#0f172a"/><rect x="12" y="24" width="34" height="22" rx="3" fill="#2563eb"/><path d="M29 20L29 10M29 10L25 14M29 10L33 14" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="45" cy="13" r="2.5" fill="#10b981"/></svg>`;
+  d.innerHTML=`<div class="msg-avatar">${avatarSVG}</div><div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`;
+  msgs.appendChild(d);
+  msgs.scrollTop=msgs.scrollHeight;
+}
+function hideTyping(){ const t=document.getElementById('typing-indicator'); if(t)t.remove(); }
+
+// CLAUDE API
+async function callClaude(system, userMsg, useSearch=false){
+  const body={model:'claude-sonnet-4-20250514',max_tokens:1000,system,messages:[{role:'user',content:userMsg}]};
+  if(useSearch) body.tools=[{type:'web_search_20250305',name:'web_search'}];
+  const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  const data=await res.json();
+  return(data.content||[]).map(b=>b.text||'').filter(Boolean).join('')||'...';
+}
+
+// SAFETY CHECK
+function hasCrisis(t){ const l=t.toLowerCase(); return CRISIS_KW.some(k=>l.includes(k)); }
+function hasHarm(t){ const l=t.toLowerCase(); return HARM_KW.some(k=>l.includes(k)); }
+
+// CHAT
+async function sendChat(){
+  if(chatLoading) return;
+  const input=document.getElementById('chat-input');
+  const text=input.value.trim();
+  if(!text) return;
+  const L=LANGS[lang];
+  addMessage('user',text);
+  input.value='';
+
+  if(hasCrisis(text)){ addMessage('assistant',L.crisisMsg,'crisis'); return; }
+  if(hasHarm(text)){ addMessage('assistant',L.harmMsg,'harm'); return; }
+
+  chatLoading=true;
+  document.getElementById('chat-send').disabled=true;
+  showTyping();
+
+  const history=messages.slice(-10).map(m=>({role:m.role,content:m.content}));
+  messages.push({role:'user',content:text});
+
+  try{
+    const reply=await callClaude(SYSTEM_PROMPTS[lang],text);
+    hideTyping();
+    messages.push({role:'assistant',content:reply});
+    addMessage('assistant',reply);
+  }catch(e){
+    hideTyping();
+    addMessage('assistant','⚠️ خطأ في الاتصال. حاول مجدداً.');
+  }
+  chatLoading=false;
+  document.getElementById('chat-send').disabled=false;
+  input.focus();
+}
+
+// CV ENHANCE
+async function enhanceCV(){
+  const text=document.getElementById('cv-text').value.trim();
+  if(!text) return;
+  const L=LANGS[lang];
+  const btn=document.getElementById('cv-btn');
+  btn.textContent=L.cvLoading; btn.disabled=true;
+  const result=document.getElementById('cv-result');
+  result.style.display='none';
+  const prompts={
+    ar:`أنت خبير HR محترف. قم بتحسين السيرة الذاتية التالية احترافياً بالعربية:\n\n${text}`,
+    en:`You are a professional HR expert. Enhance this resume professionally in English:\n\n${text}`,
+    zh:`您是专业HR专家。请用中文专业优化以下简历：\n\n${text}`
+  };
+  try{
+    const r=await callClaude('You are a professional HR and resume expert.',prompts[lang]);
+    result.textContent=r; result.style.display='block'; result.dir=LANGS[lang].dir;
+  }catch(e){ result.textContent='⚠️ Error. Please try again.'; result.style.display='block'; }
+  btn.textContent=L.cvBtn; btn.disabled=false;
+}
+
+// FILE UPLOAD
+function handleDrop(e){
+  e.preventDefault();
+  const f=e.dataTransfer.files[0];
+  if(f) processFile(f);
+}
+function handleFile(input){
+  if(input.files[0]) processFile(input.files[0]);
+}
+async function processFile(file){
+  document.getElementById('file-name').textContent='⏳ جارٍ قراءة الملف: '+file.name;
+  const ext=file.name.split('.').pop().toLowerCase();
+  try{
+    let text='';
+    if(ext==='txt'){ text=await file.text(); }
+    else if(ext==='pdf'){
+      const b64=await new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(file);});
+      const resp=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:[{type:'document',source:{type:'base64',media_type:'application/pdf',data:b64}},{type:'text',text:'Extract all text from this resume. Return only the raw text.'}]}]})});
+      const d=await resp.json();
+      text=(d.content||[]).map(b=>b.text||'').join('');
+    } else if(ext==='docx'||ext==='doc'){
+      if(!window.mammoth){await new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js';s.onload=res;s.onerror=rej;document.head.appendChild(s);});}
+      const ab=await file.arrayBuffer();
+      const r=await window.mammoth.extractRawText({arrayBuffer:ab});
+      text=r.value||'';
+    } else { text=await file.text(); }
+    document.getElementById('cv-text').value=text;
+    document.getElementById('file-name').textContent='✅ '+file.name;
+  }catch(e){
+    document.getElementById('file-name').textContent='⚠️ تعذّر قراءة الملف';
+  }
+}
+
+// COURSES
+async function findCourses(){
+  const q=document.getElementById('course-input').value.trim();
+  if(!q) return;
+  const L=LANGS[lang];
+  const btn=document.getElementById('courses-btn');
+  btn.textContent=L.coursesLoading; btn.disabled=true;
+  const result=document.getElementById('courses-result');
+  result.style.display='none';
+  const prompts={
+    ar:`ابحث عن أفضل 8 دورات مجانية في مجال "${q}" مع الروابط والمنصات.`,
+    en:`Find the best 8 free online courses in "${q}" with links and platforms.`,
+    zh:`查找"${q}"领域最好的8个免费在线课程，包括链接和平台。`
+  };
+  try{
+    const r=await callClaude('You are an expert in online education.',prompts[lang],true);
+    result.textContent=r; result.style.display='block'; result.dir=LANGS[lang].dir;
+  }catch(e){ result.textContent='⚠️ Error.'; result.style.display='block'; }
+  btn.textContent=L.coursesBtn; btn.disabled=false;
+}
+
+// JOBS
+async function findJobs(){
+  const q=document.getElementById('job-input').value.trim();
+  if(!q) return;
+  const L=LANGS[lang];
+  const btn=document.getElementById('jobs-btn');
+  btn.textContent=L.jobsLoading; btn.disabled=true;
+  const result=document.getElementById('jobs-result');
+  result.style.display='none';
+  const prompts={
+    ar:`ابحث عن 8-10 فرص عمل حقيقية لـ "${q}" مع روابط التقديم المباشرة.`,
+    en:`Find 8-10 real job opportunities for "${q}" with direct application links.`,
+    zh:`为"${q}"查找8-10个真实工作机会，包括直接申请链接。`
+  };
+  try{
+    const r=await callClaude('You are a job search expert.',prompts[lang],true);
+    result.textContent=r; result.style.display='block'; result.dir=LANGS[lang].dir;
+  }catch(e){ result.textContent='⚠️ Error.'; result.style.display='block'; }
+  btn.textContent=L.jobsBtn; btn.disabled=false;
+}
+
+// VIDEOS
+async function findVideos(){
+  const q=document.getElementById('video-input').value.trim();
+  if(!q) return;
+  const L=LANGS[lang];
+  const btn=document.getElementById('videos-btn');
+  btn.textContent=L.videosLoading; btn.disabled=true;
+  const result=document.getElementById('videos-result');
+  result.style.display='none';
+  const prompts={
+    ar:`ابحث عن 6-8 فيديوهات تحفيزية على YouTube حول "${q}" لمن فقدوا وظائفهم، مع الروابط.`,
+    en:`Find 6-8 motivational YouTube videos about "${q}" for people who lost jobs, with links.`,
+    zh:`查找6-8个关于"${q}"的励志YouTube视频，包括链接。`
+  };
+  try{
+    const r=await callClaude('You are an expert in motivational content.',prompts[lang],true);
+    result.textContent=r; result.style.display='block'; result.dir=LANGS[lang].dir;
+  }catch(e){ result.textContent='⚠️ Error.'; result.style.display='block'; }
+  btn.textContent=L.videosBtn; btn.disabled=false;
+}
+</script>
+</body>
+</html>
